@@ -1,22 +1,41 @@
-import devices from "./devices";
+import devices from './devices';
 
-const syntheseFont = {
-  family: "synthese, sans-serif",
+const merriweatherFont = {
+  family: 'merriweather, sans-serif',
   weights: {
+    light: 300,
     bold: 700,
-    regular: 400
-  }
+    regular: 400,
+  },
 };
+
+const rocFont = {
+  family: 'roc-grotesk',
+  weights: {
+    regular: 400,
+    medium: 500,
+    bold: 600,
+  },
+};
+
+const sizeScale = 1.3;
 
 const theme = {
   colors: {
-    black: "#010101"
+    black: '#010101',
+    blackish: '#191A1D',
+    white: '#fff',
+    red: '#C8102E',
+    blue: '#012169',
+    grey: '#4E5361',
   },
   fonts: {
-    alpha: syntheseFont
+    alpha: rocFont,
+    beta: merriweatherFont,
   },
   devices,
-  msrem: (f: number): string => `${Math.pow(1.3, f)}rem`
+  ms: (f: number): number => Math.pow(sizeScale, f),
+  msrem: (f: number): string => `${theme.ms(f)}rem`,
 };
 
 export type Theme = typeof theme;

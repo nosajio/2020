@@ -12,8 +12,11 @@ const ReadRoute: React.FC<ReadRouteProps> = ({ match }) => {
 
   return post ? (
     <Read.Frame>
-      <h1>{post.title}</h1>
-      <article dangerouslySetInnerHTML={{ __html: post.html }} />
+      <Read.Header>
+        <Read.When>{post.date}</Read.When>
+        <Read.Headline>{post.title}</Read.Headline>
+      </Read.Header>
+      <Read.Body dangerouslySetInnerHTML={{ __html: post.html }} />
     </Read.Frame>
   ) : (
     <>No post</>

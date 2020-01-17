@@ -20,7 +20,7 @@ export const savePost = (
   if (postExists(key)) {
     if (!overwrite) {
       throw new Error(
-        `${key} already exists. To overwrite, call savePost() with overwrite=true`,
+        `${key} already exists. To overwrite, call savePost(${key}, ${val}, true) with overwrite=true`,
       );
     }
     deletePost(key);

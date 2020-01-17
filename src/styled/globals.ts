@@ -10,7 +10,7 @@ const GlobalStyles = createGlobalStyle<{ theme: Theme }>`
   html {
     font-family: ${({ theme }) => theme.fonts.alpha.family};
     font-weight: ${({ theme }) => theme.fonts.alpha.weights.regular};
-    font-size: 125% /* 20px */;
+    font-size: 133.333% /* 21px */;
     color: white;
   }
 
