@@ -1,5 +1,13 @@
 import Content from 'components/Content';
-import styled from '../../styled';
+import styled, { css } from '../../styled';
+
+const expandedMedia = css`
+  position: relative;
+  left: -35px;
+  right: -35px;
+  width: calc(100% + 70px);
+  margin: ${({ theme }) => theme.msrem(5)} 0;
+`;
 
 export const Frame = styled(Content)``;
 
@@ -58,10 +66,12 @@ export const Body = styled.article`
 
   /* Images */
   .image {
+    ${expandedMedia}
   }
 
   /* Videos */
   .video {
+    ${expandedMedia}
     > iframe {
       width: 100%;
     }

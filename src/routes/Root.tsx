@@ -34,7 +34,7 @@ class Root extends React.Component<{}, RootState> {
       <ThemeProvider theme={theme}>
         <PostsContext.Provider value={this.state.posts}>
           <Router>
-            <Page>
+            <Page padded>
               <PageTop />
               <GlobalStyles />
               <Switch>
