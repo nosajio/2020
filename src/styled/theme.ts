@@ -21,9 +21,13 @@ const rocFont = {
 const sizeScale = 1.3;
 
 const theme = {
+  stack: {
+    loading: 15000,
+  },
   colors: {
     black: '#010101',
     blackish: '#191A1D',
+    darkBlackish: '#0F1012',
     white: '#fff',
     red: '#C8102E',
     blue: '#012169',

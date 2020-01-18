@@ -11,23 +11,6 @@ const expandedMedia = css`
 
 export const Frame = styled(Content)``;
 
-export const Header = styled.header`
-  margin-bottom: ${({ theme }) => theme.msrem(6)};
-`;
-
-export const When = styled.div`
-  font-size: ${({ theme }) => theme.msrem(-1)};
-  font-weight: ${({ theme }) => theme.fonts.alpha.weights.medium};
-  color: ${({ theme }) => theme.colors.grey};
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 1em;
-`;
-
-export const Headline = styled.h1`
-  font-size: ${({ theme }) => theme.msrem(4)};
-  font-weight: ${({ theme }) => theme.fonts.alpha.weights.medium};
-`;
 
 export const Body = styled.article`
   font: ${({
@@ -54,6 +37,8 @@ export const Body = styled.article`
   /* * * * * * * * * * * Special media classes */
 
   .caption {
+    display: block;
+    width: 100%;
     text-align: center;
     margin-top: ${({ theme }) => theme.msrem(1)};
     font: ${({
@@ -119,5 +104,15 @@ export const Body = styled.article`
   }
   blockquote > p:last-child {
     margin-bottom: 0;
+  }
+
+  /* * * * * * * * * * * Misc elements */
+  hr {
+    display: block;
+    border: none;
+    width: 100%;
+    height: 5px;
+    margin: ${({ theme }) => theme.msrem(5)} 0;
+    background: ${({ theme: { colors } }) => colors.darkBlackish};
   }
 `;

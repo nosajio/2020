@@ -2,8 +2,12 @@ import React from 'react';
 import * as Read from './styled';
 import { PostsContext } from '../../contexts/posts-context';
 import { RouteComponentProps } from 'react-router';
+import PostHeadline from 'components/PostHeadline';
+import theme from 'styled/theme';
 
-interface ReadRouteProps extends RouteComponentProps<{ slug: string }> {}
+interface ReadRouteProps extends RouteComponentProps<{ slug: string }> {
+  rootIsLoading: boolean;
+}
 
 const ReadRoute: React.FC<ReadRouteProps> = ({ match }) => {
   const { slug } = match.params;
@@ -12,15 +16,14 @@ const ReadRoute: React.FC<ReadRouteProps> = ({ match }) => {
 
   return post ? (
     <Read.Frame>
-      <Read.Header>
-        <Read.When>{post.date}</Read.When>
-        <Read.Headline>{post.title}</Read.Headline>
-      </Read.Header>
+      <PostHeadline
+        {...post}
+        marginBottom={theme.msrem(5)}
+        to={`/r/${post.slug}`}
+      />
       <Read.Body dangerouslySetInnerHTML={{ __html: post.html }} />
     </Read.Frame>
-  ) : (
-    <>No post</>
-  );
+  ) : null;
 };
 
 export default ReadRoute;

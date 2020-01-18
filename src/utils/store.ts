@@ -83,6 +83,7 @@ export const getAllSavedPosts = (): undefined | Post[] => {
 export const refreshPostStore = (posts: Post[]) => {
   // Store must be purged of all namespaced items before adding refreshed data
   clearStore();
+  return;
 
   // Add posts to store in sequence
   posts.forEach(post => {
