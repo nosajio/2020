@@ -5,11 +5,13 @@ import styled, { css } from 'styled';
 export interface FrameCssProps {
   marginBottom?: string;
   to?: string;
+  withCursorPointer?: boolean;
 }
 
 const frameCss = css<FrameCssProps>`
   display: block;
   margin-bottom: ${({ marginBottom = '0' }) => marginBottom};
+  ${({ withCursorPointer }) => (withCursorPointer ? 'cursor: pointer;' : '')}
 `;
 
 export const FrameLink = styled(({ marginBottom, ...rest }) =>

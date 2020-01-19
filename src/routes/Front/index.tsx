@@ -1,31 +1,73 @@
 import PostHeadline from 'components/PostHeadline';
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 import theme from 'styled/theme';
 import debounce from 'utils/debounce';
+import { eventPathContainsClassName } from 'utils/events';
 import { PostsContext } from '../../contexts/posts-context';
 import * as Front from './styled';
+import { RouteComponentProps } from 'react-router-dom';
 
-interface FrontProps {
+interface FrontProps extends RouteComponentProps {
   rootIsLoading: boolean;
 }
 
-const FrontRoute: React.FC<FrontProps> = ({ rootIsLoading }) => {
+const FrontRoute: React.FC<FrontProps> = ({ rootIsLoading, history }) => {
+  const frameRef = React.useRef<null | HTMLLIElement>(null);
+
+  // The index of the item that's currently being hovered / targeted
   const [indexHover, setIndexHover] = React.useState<undefined | number>(
     undefined,
   );
-  React.useEffect(() => {
-    window.addEventListener('mousemove', e => {
-      const target = e.target as HTMLElement;
-      const isOutsidePostsList = target?.parentElement?.tagName
-        ? target.parentElement.tagName !== 'A'
-        : false;
+
+  // The index of the item that's currently being transitioned to
+  const [indexNavigate, setIndexNavigate] = React.useState<undefined | number>(
+    undefined,
+  );
+
+  // Handle the transition to a post
+  const handleNavigateToPost = React.useCallback(
+    (e: SyntheticEvent, navigatePath: string, selectedIndex: number) => {
+      setIndexNavigate(selectedIndex);
+      // window.scrollTo({
+      //   top: 0,
+      //   behavior: 'smooth',
+      // });
+      setTimeout(() => {
+        history.push(navigatePath);
+      }, 1000);
+    },
+    [history],
+  );
+
+  const handleMouseMove = React.useCallback(
+    (e: MouseEvent, frameClassName?: string) => {
+      if (!frameClassName) {
+        return;
+      }
+      const isOutsidePostsList = !eventPathContainsClassName(e, frameClassName);
       debounce(() => {
         if (isOutsidePostsList) {
           setIndexHover(undefined);
         }
       }, 300)();
-    });
-  }, []);
+    },
+    [],
+  );
+
+  // Reset the hover effect when the focus moves outside of a post list item
+  React.useEffect(() => {
+    const frameEl: HTMLLIElement | null = frameRef.current;
+    const frameClassName = frameEl?.className;
+
+    window.addEventListener('mousemove', e =>
+      handleMouseMove(e, frameClassName),
+    );
+
+    return () => {
+      window.removeEventListener('mousemove', e => handleMouseMove(e));
+    };
+  }, [frameRef, handleMouseMove]);
+
   return (
     <PostsContext.Consumer>
       {posts =>
@@ -36,8 +78,12 @@ const FrontRoute: React.FC<FrontProps> = ({ rootIsLoading }) => {
                 ? posts.map((post: Post, i) => (
                     <Front.PostFrame
                       key={`post-${i}`}
+                      ref={frameRef}
                       withTransparency={
                         typeof indexHover === 'number' && i !== indexHover
+                      }
+                      isHidden={
+                        typeof indexNavigate === 'number' && i !== indexNavigate
                       }
                     >
                       <PostHeadline
@@ -46,7 +92,10 @@ const FrontRoute: React.FC<FrontProps> = ({ rootIsLoading }) => {
                         marginBottom={
                           i + 1 < posts.length ? theme.msrem(3) : '0'
                         }
-                        to={`/r/${post.slug}`}
+                        onClick={e =>
+                          handleNavigateToPost(e, `/r/${post.slug}`, i)
+                        }
+                        // to={`/r/${post.slug}`}
                       />
                     </Front.PostFrame>
                   ))

@@ -1,4 +1,4 @@
-import React, { ReactType } from 'react';
+import React, { ReactType, SyntheticEvent } from 'react';
 import * as PostHeadlineEl from './styled';
 
 interface PostHeadlineProps {
@@ -7,6 +7,7 @@ interface PostHeadlineProps {
   title: string;
   date: string;
   onHover?: () => void;
+  onClick?: (event: SyntheticEvent) => void;
 }
 
 const PostHeadline: React.FC<PostHeadlineProps> = ({
@@ -15,18 +16,22 @@ const PostHeadline: React.FC<PostHeadlineProps> = ({
   date,
   to,
   onHover,
+  onClick,
 }) => {
   const FrameEl: ReactType = to
     ? PostHeadlineEl.FrameLink
     : PostHeadlineEl.Frame;
-  const frameProps: PostHeadlineEl.FrameCssProps = { marginBottom };
+  const frameProps: PostHeadlineEl.FrameCssProps = {
+    marginBottom,
+    withCursorPointer: typeof onClick === 'function',
+  };
 
   if (to) {
     frameProps.to = to;
   }
 
   return (
-    <FrameEl {...frameProps} onMouseOver={onHover}>
+    <FrameEl {...frameProps} onMouseOver={onHover} onClick={onClick}>
       <PostHeadlineEl.When>{date}</PostHeadlineEl.When>
       <PostHeadlineEl.Headline>{title}</PostHeadlineEl.Headline>
     </FrameEl>

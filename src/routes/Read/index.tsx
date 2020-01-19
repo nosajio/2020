@@ -14,13 +14,13 @@ const ReadRoute: React.FC<ReadRouteProps> = ({ match }) => {
   const posts = React.useContext(PostsContext);
   const post = posts.find(p => p.slug === slug);
 
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return post ? (
     <Read.Frame>
-      <PostHeadline
-        {...post}
-        marginBottom={theme.msrem(5)}
-        to={`/r/${post.slug}`}
-      />
+      <PostHeadline {...post} marginBottom={theme.msrem(5)} />
       <Read.Body dangerouslySetInnerHTML={{ __html: post.html }} />
     </Read.Frame>
   ) : null;
