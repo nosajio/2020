@@ -34,7 +34,11 @@ export const When = styled.div`
 `;
 
 export const Headline = styled.h1`
-  font-size: ${({ theme }) => theme.msrem(4)};
+  font-size: ${({ theme }) => theme.msrem(2)};
   font-weight: ${({ theme }) => theme.fonts.alpha.weights.medium};
   color: white;
+
+  ${({ theme: { devices, ...theme } }) => devices.notebook`
+    font-size:  ${theme.msrem(4)};
+  `}
 `;

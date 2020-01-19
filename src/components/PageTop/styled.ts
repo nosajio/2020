@@ -6,6 +6,7 @@ export const Frame = styled.header`
   top: 0;
   left: 0;
   width: 100%;
+  z-index: ${({theme}) => theme.stack.static};
   display: flex;
   flex-flow: row-reverse nowrap;
   padding: ${({ theme: { msrem } }) => msrem(1)};

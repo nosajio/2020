@@ -3,11 +3,13 @@ import { keyframes } from 'styled-components';
 import styled, { css } from '../../styled';
 
 const expandedMedia = css`
+  ${({ theme }) => theme.devices.desktop`
   position: relative;
   left: -35px;
   right: -35px;
   width: calc(100% + 70px);
-  margin: ${({ theme }) => theme.msrem(5)} 0;
+  margin: ${theme.msrem(5)} 0;
+  `}
 `;
 
 export const Frame = styled(Content)``;
@@ -50,7 +52,7 @@ export const Body = styled.article<{ withAnimation?: boolean }>`
 
   /* * * * * * * * * * * Special media classes */
 
-  .caption {
+  .caption, cite {
     display: block;
     width: 100%;
     text-align: center;
@@ -75,6 +77,7 @@ export const Body = styled.article<{ withAnimation?: boolean }>`
       width: 100%;
     }
   }
+  > div > iframe { width: 100% }
 
   /* * * * * * * * * * * Headings */
   h2,
@@ -111,7 +114,7 @@ export const Body = styled.article<{ withAnimation?: boolean }>`
   /* * * * * * * * * * * Blockquotes */
   blockquote {
     padding: ${({ theme }) => theme.msrem(2)};
-    background: ${({ theme }) => theme.colors.blue};
+    background: ${({ theme }) => theme.colors.darkBlackish};
   }
 
   blockquote > p:first-child {
@@ -126,8 +129,28 @@ export const Body = styled.article<{ withAnimation?: boolean }>`
     display: block;
     border: none;
     width: 100%;
+    max-width: 8.3vw;
     height: 5px;
-    margin: ${({ theme }) => theme.msrem(5)} 0;
-    background: ${({ theme: { colors } }) => colors.darkBlackish};
+    margin: ${({ theme }) => theme.msrem(5)} auto;
+    /* background: ${({ theme: { colors } }) => colors.darkBlackish}; */
+    background: ${({
+      theme: {
+        colors: { red, blackish },
+      },
+    }) => `radial-gradient(${red} 30%, ${blackish} 70%)`};
   }
+
+  /* * * * * * * * * * * Lists */
+  ul { list-style: disc; }
+
+  ol { list-style-type: upper-roman; }
+
+  ul, ol { padding-left: 1rem; }
+
+  ul, ol {
+    > li + li {
+      margin-top: ${({ theme }) => theme.msrem(-3)};
+    }
+  }
+
 `;

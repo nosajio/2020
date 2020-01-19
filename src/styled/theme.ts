@@ -26,7 +26,8 @@ const sizeScale = 1.3;
 
 const theme = {
   stack: {
-    loading: 15000,
+    static: 14000, // For static elements like the logo and menu icons etc
+    loading: 15000, // For any loading elements (should be above everything else)
   },
   colors: {
     black: '#010101',
