@@ -83,7 +83,12 @@ export const getAllSavedPosts = (): undefined | Post[] => {
 export const refreshPostStore = (posts: Post[]) => {
   // Store must be purged of all namespaced items before adding refreshed data
   clearStore();
-  return;
+
+  // Turn off storing posts when the flag is set in env vars
+  const doNotStore = process.env.NOSAJ_DISABLE_POSTS_STORE || false;
+  if (doNotStore) {
+    return;
+  }
 
   // Add posts to store in sequence
   posts.forEach(post => {
