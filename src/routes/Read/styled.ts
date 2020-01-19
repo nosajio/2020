@@ -1,4 +1,5 @@
 import Content from 'components/Content';
+import { keyframes } from 'styled-components';
 import styled, { css } from '../../styled';
 
 const expandedMedia = css`
@@ -11,8 +12,21 @@ const expandedMedia = css`
 
 export const Frame = styled(Content)``;
 
+const bodyAnimateIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+`;
 
-export const Body = styled.article`
+export const Body = styled.article<{ withAnimation?: boolean }>`
+  ${({ theme, withAnimation }) =>
+    !withAnimation
+      ? ''
+      : css`
+          animation: ${bodyAnimateIn} 500ms 1 both ${theme.easing.easeOutExpo};
+        `}
+
   font: ${({
     theme: {
       fonts: { beta },
@@ -69,7 +83,8 @@ export const Body = styled.article`
   h5 {
     display: block;
     width: 100%;
-    margin: ${({ theme }) => theme.ms(2)}em 0 ${({ theme }) => theme.msrem(1)} 0;
+    margin: ${({ theme }) => theme.ms(2)}em 0 ${({ theme }) =>
+  theme.msrem(1)} 0;
     font-family: ${({ theme }) => theme.fonts.alpha.family};
     font-weight: ${({ theme }) => theme.fonts.alpha.weights.medium};
   }

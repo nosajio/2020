@@ -18,6 +18,10 @@ const rocFont = {
   },
 };
 
+const easing = {
+  easeOutExpo: 'cubic-bezier(0.19, 1, 0.22, 1)',
+};
+
 const sizeScale = 1.3;
 
 const theme = {
@@ -38,6 +42,7 @@ const theme = {
     beta: merriweatherFont,
   },
   devices,
+  easing,
   baseFontSize: 21,
   ms: (f: number): number => Math.pow(sizeScale, f),
   mspx: (f: number): number => theme.ms(f) * theme.baseFontSize,

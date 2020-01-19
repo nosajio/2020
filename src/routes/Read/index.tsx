@@ -9,7 +9,7 @@ interface ReadRouteProps extends RouteComponentProps<{ slug: string }> {
   rootIsLoading: boolean;
 }
 
-const ReadRoute: React.FC<ReadRouteProps> = ({ match }) => {
+const ReadRoute: React.FC<ReadRouteProps> = ({ match, location }) => {
   const { slug } = match.params;
   const posts = React.useContext(PostsContext);
   const post = posts.find(p => p.slug === slug);
@@ -21,7 +21,10 @@ const ReadRoute: React.FC<ReadRouteProps> = ({ match }) => {
   return post ? (
     <Read.Frame>
       <PostHeadline {...post} marginBottom={theme.msrem(5)} />
-      <Read.Body dangerouslySetInnerHTML={{ __html: post.html }} />
+      <Read.Body
+        dangerouslySetInnerHTML={{ __html: post.html }}
+        withAnimation={Boolean(location?.state?.animated)}
+      />
     </Read.Frame>
   ) : null;
 };

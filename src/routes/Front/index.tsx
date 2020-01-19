@@ -30,15 +30,14 @@ const FrontRoute: React.FC<FrontProps> = ({ rootIsLoading, history }) => {
       const target = e.target as HTMLLIElement;
       const targetPosition = target?.parentElement?.offsetTop || 0;
       const scrollTo = targetPosition - theme.mspx(7);
-
       window.scrollTo({
         top: scrollTo,
         behavior: 'smooth',
       });
       setIndexNavigate(selectedIndex);
       setTimeout(() => {
-        history.push(navigatePath);
-      }, 1000);
+        history.push(navigatePath, { animated: true });
+      }, 500);
     },
     [history],
   );
