@@ -12,7 +12,7 @@ interface FrontProps extends RouteComponentProps {
 }
 
 const FrontRoute: React.FC<FrontProps> = ({ rootIsLoading, history }) => {
-  const frameRef = React.useRef<null | HTMLLIElement>(null);
+  const frameRef = React.useRef<null | HTMLUListElement>(null);
 
   // The index of the item that's currently being hovered / targeted
   const [indexHover, setIndexHover] = React.useState<undefined | number>(
@@ -27,11 +27,15 @@ const FrontRoute: React.FC<FrontProps> = ({ rootIsLoading, history }) => {
   // Handle the transition to a post
   const handleNavigateToPost = React.useCallback(
     (e: SyntheticEvent, navigatePath: string, selectedIndex: number) => {
+      const target = e.target as HTMLLIElement;
+      const targetPosition = target?.parentElement?.offsetTop || 0;
+      const scrollTo = targetPosition - theme.mspx(7);
+
+      window.scrollTo({
+        top: scrollTo,
+        behavior: 'smooth',
+      });
       setIndexNavigate(selectedIndex);
-      // window.scrollTo({
-      //   top: 0,
-      //   behavior: 'smooth',
-      // });
       setTimeout(() => {
         history.push(navigatePath);
       }, 1000);
@@ -56,7 +60,7 @@ const FrontRoute: React.FC<FrontProps> = ({ rootIsLoading, history }) => {
 
   // Reset the hover effect when the focus moves outside of a post list item
   React.useEffect(() => {
-    const frameEl: HTMLLIElement | null = frameRef.current;
+    const frameEl: HTMLUListElement | null = frameRef.current;
     const frameClassName = frameEl?.className;
 
     window.addEventListener('mousemove', e =>
@@ -73,14 +77,15 @@ const FrontRoute: React.FC<FrontProps> = ({ rootIsLoading, history }) => {
       {posts =>
         posts.length === 0 ? null : (
           <Front.Frame>
-            <Front.PostsList>
+            <Front.PostsList ref={frameRef}>
               {posts
                 ? posts.map((post: Post, i) => (
                     <Front.PostFrame
                       key={`post-${i}`}
-                      ref={frameRef}
                       withTransparency={
-                        typeof indexHover === 'number' && i !== indexHover
+                        typeof indexNavigate !== 'number' &&
+                        typeof indexHover === 'number' &&
+                        i !== indexHover
                       }
                       isHidden={
                         typeof indexNavigate === 'number' && i !== indexNavigate

@@ -38,7 +38,9 @@ const theme = {
     beta: merriweatherFont,
   },
   devices,
+  baseFontSize: 21,
   ms: (f: number): number => Math.pow(sizeScale, f),
+  mspx: (f: number): number => theme.ms(f) * theme.baseFontSize,
   msrem: (f: number): string => `${theme.ms(f)}rem`,
 };
 
