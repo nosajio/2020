@@ -70,7 +70,9 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "clean": "trash ./dist ./build",
+    "ship": "npm run build && wrangler publish && npm run clean"
   },
   "eslintConfig": {
     "extends": "react-app"
